@@ -8,6 +8,7 @@ app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app) # SQLAlchemy instance
+
 #Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,12 +16,6 @@ class User(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     occupation = db.Column(db.String(40), unique=False, nullable=True)
 
-    def __init__(self, id, name, email, occupation):
-        self.id = id
-        self.name = name
-        self.email = email
-        self.occupation = occupation
-    
     def __repr__(self):
         return f"Updated user {self.name}"
 
@@ -34,5 +29,20 @@ def index():
 @app.route('/add_data')
 def add_data():
     return render_template('add_profiles.html')
+
+@app.route('/add', methods=["POST"])
+def profile():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    occupation = request.form.get('occupation')
+
+    if name != '' and email != '':
+        profile = User(name=name, email=email, occupation=occupation)
+        db.session.add(profile)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return redirect('/')
+
 if __name__ == '__main__':
     app.run()
