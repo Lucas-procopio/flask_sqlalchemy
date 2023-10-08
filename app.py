@@ -24,7 +24,8 @@ migrate = Migrate(app, db)
 #function to render index page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    profiles = User.query.all()
+    return render_template('index.html', profiles=profiles)
 
 @app.route('/add_data')
 def add_data():
