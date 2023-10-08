@@ -31,5 +31,8 @@ migrate = Migrate(app, db)
 def index():
     return render_template('index.html')
 
+@app.route('/add_data')
+def add_data():
+    return render_template('add_profiles.html')
 if __name__ == '__main__':
     app.run()
