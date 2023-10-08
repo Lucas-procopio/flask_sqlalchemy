@@ -8,7 +8,7 @@ app.debug = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app) # SQLAlchemy instance
-
+#Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=False, nullable=False)
@@ -25,6 +25,11 @@ class User(db.Model):
         return f"Updated user {self.name}"
 
 migrate = Migrate(app, db)
+
+#function to render index page
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run()
