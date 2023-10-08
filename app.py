@@ -45,5 +45,12 @@ def profile():
     else:
         return redirect('/')
 
+@app.route('/delete/<int:id>')
+def erase(id):
+    data = User.query.get(id)
+    db.session.delete(data)
+    db.session.commit()
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run()
